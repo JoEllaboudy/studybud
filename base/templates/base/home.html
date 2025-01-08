@@ -1,0 +1,139 @@
+{% extends 'main.html' %}
+
+{% block content%}
+<style>
+.rooms {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: space-around;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+.room {
+    float:right;
+    width: 400px;
+    height: 200px;
+    margin: 20px 20px 20px 20px;
+    background-color: #f1f1f1;
+    padding: 20px;
+    
+    border-radius: 25px;
+}
+a{
+    text-decoration: none;
+    color: #333;
+
+
+}
+a:hover {
+  color: #dbbebe;
+}
+
+.topic , .room_name{
+    word-wrap: break-word;
+}
+.room_a{
+    float: right;
+}
+
+
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: 15%;
+  background-color: #f1f1f1;
+  position: absolute;
+  height: 100%;
+  box-sizing: inherit;
+  overflow-y: scroll;
+  
+    padding-top: 20px;
+}
+
+li a {
+  display: block;
+  color: #000;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+li a.active {
+  background-color: #04AA6D;
+  color: white;
+}
+
+li a:hover:not(.active) {
+  background-color: #555;
+  color: white;
+}
+
+</style>
+
+<div class="nav">
+
+  
+           
+            <ul>
+              <h2 class="b">Browes Topics</h2>
+              <li><a href="{% url 'home' %}">All</a></li>
+            {% for topic in topics %}
+              <div class="topic_search">
+                  <li><a href="{% url 'home' %}?q={{topic.name}}">{{topic.name}}</a></li>
+              </div>
+            {% endfor %}
+            </ul>
+
+
+
+</div>
+<div class="home-container">
+  
+        
+        <div class="rooms">
+
+              <div><h5>{{room_count}} Room Available</h5>
+                {% if room_count == 0 %}
+                  <h5>Start To <a href="{% url 'create-room' %}">Create</a> Your Own Room...</h5>
+                {%endif%}
+                
+              </div>
+                {% for room in rooms %}
+                
+                
+                
+                <div class="room">
+                        <span>@{{room.host.username}}</span>
+                        <hr>
+
+                    <div class="topic">
+                            <h5><a href="{% url 'room' room.id%}">{{room.name}}</a></h5>
+                    </div>
+                    {%if request.user == room.host %}
+                    <div class="room_a">
+                        <a href="{% url 'update-room' room.id %}">Edit</a>
+                            
+                        <a href="{% url 'delete-room' room.id %}">Delete</a>
+                    </div>
+                    {%endif%}
+                
+                    <div class="room_name">
+                        <small>{{room.topic.name}}</small>
+                    </div>
+                    
+                    <hr>
+                </div>
+
+              
+            {% endfor %}
+                
+
+        </div>
+      
+    
+     
+</div>
+
+{% endblock %}

@@ -1,0 +1,105 @@
+{% extends 'main.html' %}
+
+{% block content%}
+<style>
+input[type=text], input[type=password] {
+  width: 50%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  display: grid;
+  border: none;
+  background: #f1f1f1;
+}
+input[type=submit] {
+  width: 100%;
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+} 
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+ul{
+    list-style-type: none;
+}
+li ,span#id_password2_helptext{
+    font-style: inherit;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: smaller;
+}
+
+a {
+    text-decoration: none;
+    color: #333;
+    font-size: small;
+
+}
+a:hover {
+  color: #dbbebe;
+}
+span#id_username_helptext{
+    visibility: hidden;
+}
+ul.messages , ul.errorlist{
+    color: red;
+    display: contents;
+}
+
+ul{
+    display: none;
+}
+
+</style>
+<center>
+
+    {%if page == 'login'%}
+<div>
+  
+    <form action="" method="POST">
+      {% csrf_token %}
+        
+            <label for="username">Username</label>
+            <input type="text" name="username">
+        
+        
+            <label for="password">Password</label>
+            <input type="password" name="password">
+
+
+            {% if messages %}
+    
+            <ul class="messages">
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+            </ul>
+            {% endif %}
+
+
+            <input type="submit" value="Login">
+            <a href="{% url 'register' %}">sign up</a>
+    </form>
+
+
+    
+</div>
+</center>
+{%else%}
+<div>
+<form action="" method="POST">
+    {% csrf_token %}
+    {{form.as_p}}
+
+          <input type="submit" value="Register">
+          <a href="{% url 'login' %}">already signed up?</a>
+  </form>
+</div>
+{%endif%}
+
+{% endblock %}

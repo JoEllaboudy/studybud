@@ -1,0 +1,96 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<style>
+
+.description{
+    display: block;
+    color: white;
+    border-radius: 25px;
+    color: black;
+    background-color:whitesmoke ;
+    text-align: center;
+    margin: 20px;
+    padding: 10px;
+
+}
+.messagefield{
+    display: block;
+    color: white;
+    border-radius: 25px;
+    color: black;
+    background-color:whitesmoke ;
+    width: 900px;
+    height: 450px;
+    margin: 20px;
+    padding: 10px;
+    background-color: lightsteelblue;
+    overflow:scroll;
+}
+.sendmessage{
+    width: 500px;
+    height: 50px;
+    margin-left: 20px;
+    padding: 20px;
+    font-family: cursive;
+    background: #f3f3f3;
+}
+
+.message{
+    padding: 20px;
+    margin: 10px;
+}
+.head{
+    text-align: center;
+    
+}
+
+</style>
+
+
+ <div class="head">
+
+    <h2>{{room.name}}</h2>
+
+    <div class="description">
+        {{room.description}}
+
+    </div>
+
+ </div>
+
+
+
+<div class="conversation">
+
+    <h3>Conversation</h3>
+    <hr>
+    <div class="messagefield">
+        {% for message in room_messages %}
+            <div class="messgae">
+
+
+            <small> {{message.user}}</small>  {{message.created| timesince}} ago.
+            
+            <p>{{message.body}}</p> 
+
+            <hr>  
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+ {% if request.user.is_authenticated %}   
+<div class="form">
+    <form action="" method="post">
+        {% csrf_token %}
+        <input class="sendmessage" type="text" name="body" placeholder="Write Your message here...">
+    </form>
+{% endif %}
+</div>
+
+</div>
+
+{% endblock %}
